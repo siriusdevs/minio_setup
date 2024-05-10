@@ -2,7 +2,7 @@
 docker run -d -p 9000:9000 -p 9001:9001 -e "MINIO_ROOT_USER=user" -e "MINIO_ROOT_PASSWORD=password" minio/minio server /data --console-address ":9001"
 ```
 ```
-python3 -m pip install django-storages boto3
+python3 -m pip install django-storages boto3 django-minio-backend
 ```
 ```
 python3 manage.py collectstatic
@@ -20,5 +20,16 @@ if DEBUG:
 INSTALLED_APPS = [
     ...
     'storages',
+    'django_minio_backend',
 ]
+```
+
+```
+from django_minio_backend import MinioBackend, iso_date_prefix
+
+    file = models.FileField(
+        null=True, blank=True, 
+        storage=MinioBackend(bucket_name='django-backend-dev-private'),
+        upload_to=iso_date_prefix
+    )
 ```
