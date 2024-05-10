@@ -4,9 +4,7 @@ docker run -d -p 9000:9000 -p 9001:9001 -e "MINIO_ROOT_USER=user" -e "MINIO_ROOT
 ```
 python3 -m pip install django-storages boto3 django-minio-backend
 ```
-```
-python3 manage.py collectstatic
-```
+settings.py
 ```
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
@@ -33,7 +31,7 @@ INSTALLED_APPS = [
     'django_minio_backend',
 ]
 ```
-
+models.py:
 ```
 from django_minio_backend import MinioBackend, iso_date_prefix
 
@@ -42,4 +40,13 @@ from django_minio_backend import MinioBackend, iso_date_prefix
         storage=MinioBackend(bucket_name='static'),
         upload_to=iso_date_prefix
     )
+```
+
+template read.html
+```
+<embed src="http://localhost:9000/static/{{book.file}}" width=100% height="700px"/>
+```
+
+```
+python3 manage.py collectstatic
 ```
