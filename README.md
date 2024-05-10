@@ -39,7 +39,7 @@ from django_minio_backend import MinioBackend, iso_date_prefix
 
     file = models.FileField(
         null=True, blank=True, 
-        storage=MinioBackend(bucket_name='django-backend-dev-private'),
+        storage=MinioBackend(bucket_name='static'),
         upload_to=iso_date_prefix
     )
 ```
